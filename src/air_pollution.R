@@ -1,6 +1,5 @@
 # air_pollution.R
 
-sample <- read.csv('data/specdata/002.csv')
 AIR_POLLUTION_DATA_DIR_PATH <- 'data/specdata/'
 
 
@@ -52,4 +51,44 @@ complete_observations <- function(dir_path, id=1:332) {
 }
 
 complete_observations(AIR_POLLUTION_DATA_DIR_PATH, 3)
+cc <- complete_observations(AIR_POLLUTION_DATA_DIR_PATH, 54)
 
+
+
+
+pollutant_corr <- function(dir_path, threshold=0) {
+    # returns a numeric vector of correlations
+    #    threshold: numeric vector of length 1 indicating the
+    #       number of completely observed observations (on all variables)
+    #       required to compute the correlation between sulfate and nitrate,
+    #       the default is 0
+    data <- load_data(dir_path)
+    corr_vector <- c()
+    for (monitor in unique(data$ID)) {
+        monitor_data <- data[data$ID == monitor, ]
+        monitor_complete_data <- monitor_data[!is.na(monitor_data$sulfate) & !is.na(monitor_data$nitrate), ]
+        if (nrow(monitor_complete_data) >= 0) {
+            correlation <- cor(monitor_complete_data$nitrate, monitor_complete_data$sulfate)
+            corr_vector <- c(corr_vector, correlation)
+        }
+        else {
+            corr_vector <- c(corr_vector, NA)
+        }
+    }
+    return(corr_vector)
+}
+
+cr <- pollutant_corr(AIR_POLLUTION_DATA_DIR_PATH, 129)
+cr <- sort(cr)                
+n <- length(cr)    
+RNGversion("3.5.1")
+set.seed(197)                
+out <- c(n, round(cr[sample(n, 5)], 4))
+print(out)
+
+
+cr <- pollutant_corr(AIR_POLLUTION_DATA_DIR_PATH, 2000)                
+n <- length(cr)                
+cr <- pollutant_corr(AIR_POLLUTION_DATA_DIR_PATH, 1000)                
+cr <- sort(cr)
+print(c(n, round(cr, 4)))
