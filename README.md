@@ -1,2 +1,3 @@
 # coursera-datascience-lab
-Data Science specialization from coursera excercises, notes, etc...
+Repository with exccercises, notes and problems from the `Data Science` course-specialziation
+offered by Coursera -John Hopkins.
