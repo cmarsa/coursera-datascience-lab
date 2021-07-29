@@ -29,9 +29,6 @@ pollutant_mean <- function(dir_path, pollutant, id=1:332) {
     mean(data[[pollutant]], na.rm=TRUE)
 }
 
-pollutant_mean(AIR_POLLUTION_DATA_DIR_PATH, 'nitrate', id=70:72)
-
-
 complete_observations <- function(dir_path, id=1:332) {
     # return a data frame of the form:
     # id   n_obs
@@ -49,12 +46,6 @@ complete_observations <- function(dir_path, id=1:332) {
     colnames(freq_table) <- c('id', 'n_obs')
     return(freq_table)
 }
-
-complete_observations(AIR_POLLUTION_DATA_DIR_PATH, 3)
-cc <- complete_observations(AIR_POLLUTION_DATA_DIR_PATH, 54)
-
-
-
 
 pollutant_corr <- function(dir_path, threshold=0) {
     # returns a numeric vector of correlations
@@ -78,17 +69,3 @@ pollutant_corr <- function(dir_path, threshold=0) {
     return(corr_vector)
 }
 
-cr <- pollutant_corr(AIR_POLLUTION_DATA_DIR_PATH, 129)
-cr <- sort(cr)                
-n <- length(cr)    
-RNGversion("3.5.1")
-set.seed(197)                
-out <- c(n, round(cr[sample(n, 5)], 4))
-print(out)
-
-
-cr <- pollutant_corr(AIR_POLLUTION_DATA_DIR_PATH, 2000)                
-n <- length(cr)                
-cr <- pollutant_corr(AIR_POLLUTION_DATA_DIR_PATH, 1000)                
-cr <- sort(cr)
-print(c(n, round(cr, 4)))
