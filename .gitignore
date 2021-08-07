@@ -7,6 +7,7 @@
 
 # ignore data directory
 /data/
+/out/
 
 # User-specific files
 .Ruserdata
